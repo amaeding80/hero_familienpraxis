@@ -15,8 +15,7 @@
     /* ── Demo-Leiste ───────────────────────── */
     .demo-bar {
       position: fixed; top: 0; left: 0; right: 0; z-index: 500;
-      height: 32px;
-      background: #182153;
+      height: 32px; background: #182153;
       color: rgba(255,255,255,0.80);
       font-size: 11px; font-weight: 500; letter-spacing: 0.04em;
       display: flex; align-items: center; justify-content: center; gap: 10px;
@@ -28,121 +27,108 @@
     .nav {
       position: fixed; top: 32px; left: 0; right: 0; z-index: 400;
       height: 66px;
-      background: rgba(255,255,255,0.93);
+      background: rgba(255,255,255,0.94);
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(0,0,0,0.07);
       display: flex; align-items: center;
       padding: 0 clamp(20px, 5vw, 60px);
-      gap: 24px;
-      transition: box-shadow 0.2s;
+      gap: 24px; transition: box-shadow 0.2s;
     }
     .nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.09); }
-
     .nav__logo { flex-shrink: 0; text-decoration: none; }
-    .nav__logo-name {
-      display: block; font-size: 15px; font-weight: 700;
-      color: #182153; letter-spacing: -0.02em; line-height: 1.2;
-    }
-    .nav__logo-sub {
-      display: block; font-size: 10px; color: #5F79A1; margin-top: 2px;
-    }
-
-    .nav__links {
-      flex: 1; display: flex; justify-content: center;
-      gap: 2px; list-style: none;
-    }
-    .nav__links a {
-      text-decoration: none; font-size: 13px; font-weight: 500; color: #182153;
-      padding: 6px 12px; border-radius: 7px;
-      transition: background 0.12s, color 0.12s;
-    }
+    .nav__logo-name { display: block; font-size: 15px; font-weight: 700; color: #182153; letter-spacing: -0.02em; line-height: 1.2; }
+    .nav__logo-sub  { display: block; font-size: 10px; color: #5F79A1; margin-top: 2px; }
+    .nav__links { flex: 1; display: flex; justify-content: center; gap: 2px; list-style: none; }
+    .nav__links a { text-decoration: none; font-size: 13px; font-weight: 500; color: #182153; padding: 6px 12px; border-radius: 7px; transition: background 0.12s, color 0.12s; }
     .nav__links a:hover { background: #EBF3FC; color: #116DFF; }
-
-    .nav__cta {
-      flex-shrink: 0;
-      background: #116DFF; color: #fff;
-      padding: 9px 20px; border-radius: 8px;
-      font-size: 13px; font-weight: 600; text-decoration: none;
-      transition: background 0.15s; white-space: nowrap;
-    }
+    .nav__cta { flex-shrink: 0; background: #116DFF; color: #fff; padding: 9px 20px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; transition: background 0.15s; white-space: nowrap; }
     .nav__cta:hover { background: #0050CC; }
-
-    .nav__burger {
-      display: none; flex-direction: column; gap: 5px;
-      cursor: pointer; margin-left: auto;
-    }
+    .nav__burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; margin-left: auto; }
     .nav__burger span { display: block; width: 22px; height: 2px; background: #182153; border-radius: 2px; }
 
-    /* ── Hero ──────────────────────────────── */
+    /* ══════════════════════════════════════════
+       HERO – kompakte Mitte-Komposition
+       Alles in einem Blick erfassbar:
+       Der gesamte Content-Block ist zentriert,
+       der Berg leuchtet links und rechts raus.
+    ══════════════════════════════════════════ */
     .hero {
       position: relative;
-      margin-top: 98px; /* demo-bar + nav */
-      height: 74vh;
-      min-height: 500px; max-height: 700px;
+      margin-top: 98px;
+      height: 72vh;
+      min-height: 490px; max-height: 680px;
       overflow: hidden;
-
+      display: flex;
+      align-items: center;
+      justify-content: center;
       background:
         url('https://static.wixstatic.com/media/22946d_57072f4a5e2646c6936f508f5f335924~mv2.png/v1/fill/w_1920,h_900,al_c,q_90,enc_avif,quality_auto/22946d_57072f4a5e2646c6936f508f5f335924~mv2.png')
-        center 38% / cover no-repeat;
+        center 36% / cover no-repeat;
       background-color: #1C2B5A;
     }
 
-    /* Dunkler Gradient-Overlay – links stärker für Textlesbarkeit */
+    /* Leichtes Overlay – Berg gut sichtbar */
     .hero::before {
-      content: '';
-      position: absolute; inset: 0; z-index: 1;
+      content: ''; position: absolute; inset: 0; z-index: 1;
       background:
-        linear-gradient(to right,
-          rgba(14,18,52,0.78) 0%,
-          rgba(14,18,52,0.52) 35%,
-          rgba(14,18,52,0.18) 62%,
-          rgba(14,18,52,0.05) 80%,
-          transparent 100%
+        radial-gradient(ellipse 80% 90% at 50% 50%,
+          rgba(12,16,48,0.28) 0%,
+          rgba(12,16,48,0.48) 70%,
+          rgba(12,16,48,0.68) 100%
         ),
-        linear-gradient(to top,
-          rgba(14,18,52,0.60) 0%,
-          rgba(14,18,52,0.20) 22%,
-          transparent 45%
-        ),
-        linear-gradient(to bottom,
-          rgba(14,18,52,0.28) 0%,
-          transparent 18%
-        );
+        linear-gradient(to top, rgba(12,16,48,0.55) 0%, transparent 30%),
+        linear-gradient(to bottom, rgba(12,16,48,0.22) 0%, transparent 14%);
     }
 
-    /* ── Linke Text-Seite ─────────────────── */
+    /*
+      KERN-KOMPOSITION:
+      Ein einziger, kompakter Block – max 900px breit –
+      zentriert im Hero. Text links, Team rechts,
+      eng nebeneinander. Alles mit einem Blick erfassbar.
+    */
+    .hero__card {
+      position: relative; z-index: 3;
+      display: flex;
+      align-items: center;
+      gap: 0; /* kein Gap – alles direkt aneinander */
+
+      background: rgba(14,18,52,0.52);
+      backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 26px;
+      overflow: hidden;
+      box-shadow:
+        0 20px 60px rgba(0,0,0,0.36),
+        inset 0 1px 0 rgba(255,255,255,0.12);
+
+      max-width: 860px;
+      width: calc(100% - 48px);
+    }
+
+    /* ── Linke Seite: Text ─────────────────── */
     .hero__content {
-      position: absolute; z-index: 3;
-      left: clamp(32px, 6vw, 80px);
-      top: 50%;
-      transform: translateY(-52%);
-      max-width: clamp(280px, 42vw, 520px);
+      flex: 1 1 auto;
+      padding: clamp(28px, 4vh, 44px) clamp(24px, 3.5vw, 44px);
     }
 
     .hero__tag {
       display: inline-flex; align-items: center; gap: 7px;
       background: rgba(255,255,255,0.10);
-      border: 1px solid rgba(255,255,255,0.22);
-      backdrop-filter: blur(10px);
-      color: rgba(255,255,255,0.84);
-      font-size: 10.5px; font-weight: 500; letter-spacing: 0.05em;
-      padding: 4px 13px; border-radius: 20px;
-      margin-bottom: 18px;
+      border: 1px solid rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.80);
+      font-size: 10px; font-weight: 500; letter-spacing: 0.06em;
+      padding: 4px 12px; border-radius: 20px; margin-bottom: 16px;
       text-transform: uppercase;
     }
-    .hero__tag::before {
-      content: ''; width: 6px; height: 6px; border-radius: 50%;
-      background: #61B8F0; flex-shrink: 0;
-    }
+    .hero__tag::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #61B8F0; flex-shrink: 0; }
 
     .hero__h1 {
-      font-size: clamp(26px, 3.6vw, 48px);
+      font-size: clamp(24px, 3vw, 42px);
       font-weight: 700; color: #fff;
-      line-height: 1.13; letter-spacing: -0.025em;
-      margin-bottom: 14px;
-      text-shadow: 0 2px 18px rgba(0,0,0,0.28);
+      line-height: 1.14; letter-spacing: -0.024em;
+      margin-bottom: 12px;
+      text-shadow: 0 2px 16px rgba(0,0,0,0.22);
     }
-    /* "ganze Familie" – leuchtend weiß, nicht hellblau */
     .hero__h1 em {
       font-style: normal;
       color: #fff;
@@ -153,153 +139,131 @@
     }
 
     .hero__sub {
-      font-size: 14.5px; color: rgba(255,255,255,0.78);
-      line-height: 1.65; margin-bottom: 28px;
-      text-shadow: 0 1px 8px rgba(0,0,0,0.35);
+      font-size: 13.5px; color: rgba(255,255,255,0.72);
+      line-height: 1.65; margin-bottom: 24px;
     }
 
-    .hero__btns {
-      display: flex; gap: 10px; flex-wrap: wrap;
+    .hero__btns { display: flex; gap: 9px; flex-wrap: wrap; }
+
+    /* ── Öffnungszeiten-Status ─────────────── */
+    .hero__status {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-bottom: 18px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 30px;
+      padding: 6px 14px 6px 10px;
     }
+    .status__dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    }
+    .status__dot--open   { background: #34D399; box-shadow: 0 0 0 3px rgba(52,211,153,0.25); }
+    .status__dot--closed { background: #F87171; box-shadow: 0 0 0 3px rgba(248,113,113,0.22); }
+    .status__dot--off    { background: rgba(255,255,255,0.30); }
+    .status__text {
+      font-size: 12px; font-weight: 500;
+      color: rgba(255,255,255,0.88);
+      white-space: nowrap;
+    }
+    .status__badge {
+      font-size: 10.5px; font-weight: 700; letter-spacing: 0.03em;
+      padding: 2px 8px; border-radius: 20px; margin-left: 2px;
+    }
+    .status__badge--open   { background: rgba(52,211,153,0.20); color: #6EE7B7; }
+    .status__badge--closed { background: rgba(248,113,113,0.18); color: #FCA5A5; }
+
     .btn-primary {
       background: #116DFF; color: #fff;
-      padding: 12px 24px; border-radius: 9px;
-      font-size: 13.5px; font-weight: 600; text-decoration: none;
-      box-shadow: 0 4px 18px rgba(17,109,255,0.38);
+      padding: 11px 22px; border-radius: 8px;
+      font-size: 13px; font-weight: 600; text-decoration: none;
+      box-shadow: 0 4px 16px rgba(17,109,255,0.40);
       transition: background 0.15s, transform 0.1s;
     }
     .btn-primary:hover { background: #0050CC; transform: translateY(-1px); }
     .btn-ghost {
-      background: rgba(255,255,255,0.11);
-      border: 1.5px solid rgba(255,255,255,0.34);
-      color: #fff; padding: 12px 24px; border-radius: 9px;
-      font-size: 13.5px; font-weight: 600; text-decoration: none;
-      backdrop-filter: blur(6px);
+      background: rgba(255,255,255,0.10); border: 1.5px solid rgba(255,255,255,0.28);
+      color: #fff; padding: 11px 22px; border-radius: 8px;
+      font-size: 13px; font-weight: 600; text-decoration: none;
       transition: background 0.15s;
     }
-    .btn-ghost:hover { background: rgba(255,255,255,0.20); }
+    .btn-ghost:hover { background: rgba(255,255,255,0.18); }
 
-    /* ── Rechte Ärzte-Seite ────────────────── */
-    /*
-      Beide Ärzte stehen rechts – versetzt.
-      Julia (hinten/links) leicht tiefer positioniert,
-      Dr. Gold (vorne/rechts) etwas höher.
-    */
-    .hero__doctors {
-      position: absolute; z-index: 4;
-      right: clamp(16px, 5vw, 64px);
-      bottom: 0;
-      display: flex;
-      align-items: flex-end;
-      gap: 16px;
+    /* Trennlinie zwischen Text und Team */
+    .hero__divider {
+      flex: 0 0 1px;
+      align-self: stretch;
+      background: rgba(255,255,255,0.12);
     }
 
-    /* Gemeinsame Stile für alle Arzt-Cards */
-    .doctor {
+    /* ── Rechte Seite: Ärzteteam ──────────── */
+    .hero__team {
+      flex: 0 0 auto;
       position: relative;
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      align-items: flex-end;
+      gap: clamp(10px, 1.5vw, 18px);
+      padding: clamp(20px, 3vh, 36px) clamp(20px, 2.5vw, 32px) clamp(20px, 3vh, 32px);
     }
 
-    /* Julia: tiefer gesetzt (voller Fuß) */
-    .doctor--julia {
-      margin-bottom: 0;
-    }
-
-    /* Dr. Gold: höher gesetzt = mehr Figur sichtbar */
-    .doctor--gold {
-      margin-bottom: 44px;
-    }
-
-    /*
-      Navy-Aura hinter jedem Arztfoto.
-      Blendet den grauen Studiohintergrund weich in die Berglandschaft.
-    */
-    .doctor::before {
-      content: '';
+    /* "Ärzteteam"-Chip */
+    .hero__team-label {
       position: absolute;
-      inset: -10% -15% 0;
-      background: radial-gradient(
-        ellipse 65% 75% at 50% 55%,
-        rgba(16, 22, 60, 0.72)  0%,
-        rgba(16, 22, 60, 0.44) 42%,
-        rgba(16, 22, 60, 0.12) 68%,
-        transparent             85%
-      );
-      z-index: 0;
-      pointer-events: none;
+      top: 14px; left: 50%; transform: translateX(-50%);
+      background: rgba(17,109,255,0.85);
+      color: #fff; font-size: 9px; font-weight: 700;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      padding: 3px 11px; border-radius: 20px;
+      white-space: nowrap;
     }
 
-    .doctor__photo {
-      position: relative; z-index: 1;
+    .doctor-card {
+      display: flex; flex-direction: column; align-items: center;
+      padding-top: 24px; /* Platz für das Label */
+    }
+
+    /* Dr. Gold versetzt nach oben */
+    .doctor-card--gold {
+      margin-bottom: clamp(22px, 3.5vh, 40px);
+    }
+
+    .doctor-card__photo {
       display: block;
-      width: clamp(140px, 13vw, 195px);
-      height: clamp(210px, 19.5vw, 285px);
+      width: clamp(112px, 10.5vw, 148px);
+      height: clamp(144px, 13.5vw, 190px);
       object-fit: cover;
-      object-position: center 5%;
-
-      /*
-        Maske: Gesicht + Oberkörper vollständig sichtbar.
-        Kanten (bes. oben und Seiten) weich ausblenden –
-        so integriert sich die Person in die Berglandschaft.
-      */
-      -webkit-mask-image:
-        radial-gradient(ellipse 76% 72% at 50% 14%,
-          black            0%,
-          black            38%,
-          rgba(0,0,0,0.90) 50%,
-          rgba(0,0,0,0.62) 62%,
-          rgba(0,0,0,0.22) 76%,
-          transparent      90%
-        );
-      mask-image:
-        radial-gradient(ellipse 76% 72% at 50% 14%,
-          black            0%,
-          black            38%,
-          rgba(0,0,0,0.90) 50%,
-          rgba(0,0,0,0.62) 62%,
-          rgba(0,0,0,0.22) 76%,
-          transparent      90%
-        );
-
-      filter: contrast(1.06) brightness(1.04)
-              drop-shadow(0 6px 22px rgba(0,0,0,0.38));
+      object-position: center 6%;
+      border-radius: 14px;
+      border: 1.5px solid rgba(255,255,255,0.22);
+      box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+      filter: grayscale(100%) contrast(1.05) brightness(1.05);
     }
 
-    /* Namensbeschriftung */
-    .doctor__label {
-      position: relative; z-index: 2;
-      margin-top: -8px;
-      text-align: center;
-      padding-bottom: 22px;
+    .doctor-card__name {
+      display: block; margin-top: 9px;
+      font-size: 11.5px; font-weight: 700;
+      color: rgba(255,255,255,0.94);
+      text-align: center; white-space: nowrap;
     }
-    .doctor__name {
-      display: block; font-size: 12px; font-weight: 700;
-      color: rgba(255,255,255,0.92);
-      text-shadow: 0 1px 8px rgba(0,0,0,0.65);
-    }
-    .doctor__spec {
-      display: block; font-size: 10px;
-      color: rgba(255,255,255,0.55);
-      text-shadow: 0 1px 6px rgba(0,0,0,0.55);
-      margin-top: 2px; line-height: 1.4;
+    .doctor-card__spec {
+      display: block; margin-top: 3px;
+      font-size: 9.5px; color: rgba(255,255,255,0.52);
+      text-align: center; line-height: 1.4;
     }
 
     /* Scroll-Pfeil */
     .hero__scroll {
-      position: absolute; bottom: 20px; left: clamp(32px, 6vw, 80px);
-      z-index: 5;
-      opacity: 0.42;
+      position: absolute; bottom: 16px; left: 50%;
+      transform: translateX(-50%);
+      z-index: 5; opacity: 0.36;
       animation: sb 2.4s ease-in-out infinite;
     }
     @keyframes sb {
-      0%,100% { transform: translateY(0); }
-      50%      { transform: translateY(7px); }
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(6px); }
     }
     .hero__scroll svg { display: block; width: 20px; height: 20px; color: #fff; }
 
-    /* ── Hinweis unten ─────────────────────── */
+    /* ── Hinweis ───────────────────────────── */
     .rest-note {
       background: #fff; border-top: 3px solid #116DFF;
       padding: 52px 40px; text-align: center;
@@ -307,53 +271,72 @@
     .rest-note h2 { font-size: 17px; font-weight: 600; color: #182153; margin-bottom: 8px; }
     .rest-note p  { font-size: 14px; color: #5F79A1; line-height: 1.7; }
 
-    /* ── Tablet ≤1023px ────────────────────── */
+    /* ══════════════════════════════════════════
+       TABLET  768px – 1023px
+    ══════════════════════════════════════════ */
     @media (max-width: 1023px) {
-      .hero__content { max-width: clamp(240px, 46vw, 420px); }
-      .hero__doctors { gap: 10px; right: clamp(12px, 3vw, 32px); }
-      .doctor__photo {
-        width: clamp(120px, 11vw, 165px);
-        height: clamp(180px, 16.5vw, 240px);
-      }
-      .doctor--gold { margin-bottom: 32px; }
+      .hero__card { max-width: 720px; }
+      .hero__h1 { font-size: clamp(22px, 3.2vw, 34px); }
+      .doctor-card__photo { width: clamp(100px, 10vw, 130px); height: clamp(128px, 12.8vw, 167px); }
+      .doctor-card--gold { margin-bottom: clamp(18px, 3vh, 32px); }
     }
 
-    /* ── Mobile ≤767px ─────────────────────── */
+    /* ══════════════════════════════════════════
+       SMARTPHONE  ≤ 767px
+       Karte wird vertikal gestackt
+    ══════════════════════════════════════════ */
     @media (max-width: 767px) {
       .nav__links { display: none; }
       .nav__burger { display: flex; }
 
-      .hero { height: auto; min-height: 560px; max-height: none; }
+      .hero {
+        height: auto; min-height: 0; max-height: none;
+        padding: 20px 0 28px;
+        align-items: flex-start;
+      }
 
-      /* Mobile: Text oben, Ärzte am unteren Rand */
+      .hero__card {
+        flex-direction: column;
+        width: calc(100% - 32px);
+        border-radius: 20px;
+      }
+
       .hero__content {
-        top: 32px; transform: none;
-        left: 18px; right: 18px;
-        max-width: 100%;
+        padding: 24px 20px 20px;
+        text-align: left;
       }
       .hero__h1  { font-size: 23px; }
       .hero__sub { font-size: 13px; margin-bottom: 18px; }
-      .hero__tag { font-size: 10px; margin-bottom: 14px; }
-      .hero__h1 em { text-decoration-thickness: 2px; }
-      .btn-primary, .btn-ghost { padding: 10px 18px; font-size: 13px; }
+      .btn-primary, .btn-ghost { padding: 11px 18px; font-size: 13px; }
 
-      .hero__doctors {
-        right: 12px;
-        gap: 6px;
+      .hero__divider {
+        flex: 0 0 1px;
+        width: auto; align-self: auto;
+        height: 1px;
+        background: rgba(255,255,255,0.12);
       }
-      .doctor__photo {
-        width: 96px; height: 138px;
+
+      .hero__team {
+        width: 100%;
+        justify-content: center;
+        padding: 18px 20px 22px;
       }
-      .doctor--gold { margin-bottom: 28px; }
-      .doctor__spec  { display: none; }
-      .doctor__name  { font-size: 10.5px; }
-      .doctor__label { padding-bottom: 12px; }
+
+      .hero__team-label { top: 10px; }
+      .doctor-card__photo { width: 120px; height: 152px; }
+      .doctor-card--gold  { margin-bottom: 22px; }
+      .doctor-card__spec  { display: none; }
+    }
+
+    /* Extra klein ≤ 390px */
+    @media (max-width: 390px) {
+      .doctor-card__photo { width: 106px; height: 134px; }
+      .hero__h1 { font-size: 20px; }
     }
   </style>
 </head>
 <body>
 
-<!-- Demo-Leiste -->
 <div class="demo-bar">
   <b>Konzept-Vorschau</b>
   <s>|</s>
@@ -362,95 +345,173 @@
   Nur Hero &amp; Navigation werden geändert
 </div>
 
-<!-- ═══ NAVIGATION ═══════════════════════════════════ -->
 <nav class="nav" id="nav">
   <a href="#" class="nav__logo">
     <span class="nav__logo-name">Die Familienpraxis</span>
     <span class="nav__logo-sub">Allgemeinmedizin · München Bogenhausen</span>
   </a>
-
   <ul class="nav__links">
     <li><a href="#">Home</a></li>
     <li><a href="#">Aktuelles</a></li>
     <li><a href="#">Team</a></li>
     <li><a href="#">Leistungen</a></li>
-    <li><a href="#">Kontakt &amp; Termine</a></li>
+    <li><a href="#">Kontakt &amp; Terme</a></li>
     <li><a href="#">Rezepte</a></li>
   </ul>
-
   <a href="#" class="nav__cta">Termin buchen</a>
   <div class="nav__burger"><span></span><span></span><span></span></div>
 </nav>
 
-<!-- ═══ HERO ═════════════════════════════════════════ -->
 <section class="hero">
 
-  <!-- Text-Block – links -->
-  <div class="hero__content">
-    <span class="hero__tag">München Bogenhausen · Freischützstraße 9</span>
-    <h1 class="hero__h1">
-      Ihre Hausarzt&shy;praxis<br>für die <em>ganze Familie</em>
-    </h1>
-    <p class="hero__sub">
-      Persönlich. Kompetent. Nah bei Ihnen.<br>
-      Allgemeinmedizin · Chirurgie · Akupunktur
-    </p>
-    <div class="hero__btns">
-      <a href="#" class="btn-primary">Termin buchen</a>
-      <a href="#" class="btn-ghost">Rezept anfordern</a>
-    </div>
-  </div>
+  <!-- Kompakter Gesamt-Block: Text | Divider | Team -->
+  <div class="hero__card">
 
-  <!-- Beide Ärzte – rechts, versetzt -->
-  <div class="hero__doctors">
+    <!-- Text – linke Hälfte -->
+    <div class="hero__content">
+      <span class="hero__tag">München Bogenhausen · Freischützstraße 9</span>
+      <h1 class="hero__h1">
+        Ihre Hausarzt&shy;praxis<br>für die <em>ganze Familie</em>
+      </h1>
+      <p class="hero__sub">
+        Persönlich. Kompetent. Nah bei Ihnen.<br>
+        Allgemeinmedizin · Chirurgie · Akupunktur
+      </p>
+      <!-- Öffnungszeiten-Status – wird per JS befüllt -->
+      <div class="hero__status" id="heroStatus" style="display:none">
+        <span class="status__dot" id="statusDot"></span>
+        <span class="status__text" id="statusText"></span>
+        <span class="status__badge" id="statusBadge"></span>
+      </div>
 
-    <!-- Julia – etwas tiefer (vordergründig links) -->
-    <div class="doctor doctor--julia">
-      <img
-        class="doctor__photo"
-        src="https://static.wixstatic.com/media/22946d_a7327c2b91ea4f3aaf09ad40701d5487~mv2.jpg/v1/crop/x_97,y_0,w_979,h_979/fill/w_460,h_600,al_c,q_85,enc_avif,quality_auto/e4e6516b_edited_edited_edited.jpg"
-        alt="Julia Gleixner – Fachärztin"
-      >
-      <div class="doctor__label">
-        <span class="doctor__name">Julia Gleixner</span>
-        <span class="doctor__spec">Fachärztin · Allgemeinmedizin &amp; Chirurgie</span>
+      <div class="hero__btns">
+        <a href="#" class="btn-primary">Termin buchen</a>
+        <a href="#" class="btn-ghost">Rezept anfordern</a>
       </div>
     </div>
 
-    <!-- Dr. Gold – etwas höher (etwas weiter hinten, rechts) -->
-    <div class="doctor doctor--gold">
-      <img
-        class="doctor__photo"
-        src="https://static.wixstatic.com/media/22946d_0321a415a73a42b58fee1a3507f3d63f~mv2.jpg/v1/fill/w_460,h_600,al_c,q_85,enc_avif,quality_auto/47585_edited.jpg"
-        alt="Dr. Gold – Facharzt"
-      >
-      <div class="doctor__label">
-        <span class="doctor__name">Dr. Gold</span>
-        <span class="doctor__spec">Facharzt · Allgemeinmedizin &amp; Akupunktur</span>
+    <div class="hero__divider"></div>
+
+    <!-- Ärzteteam – rechte Hälfte -->
+    <div class="hero__team">
+      <span class="hero__team-label">Ärzteteam</span>
+
+      <div class="doctor-card">
+        <img
+          class="doctor-card__photo"
+          src="https://static.wixstatic.com/media/22946d_ae3e9e934e7845f4852bd9dc9ea41a79~mv2.jpg/v1/crop/x_830,y_120,w_500,h_652/fill/w_460,h_600,al_c,q_85,enc_avif,quality_auto/julia_team.jpg"
+          alt="Julia Gleixner – Fachärztin"
+        >
+        <span class="doctor-card__name">Julia Gleixner</span>
+        <span class="doctor-card__spec">Fachärztin<br>Allgemeinmedizin &amp; Chirurgie</span>
       </div>
+
+      <div class="doctor-card doctor-card--gold">
+        <img
+          class="doctor-card__photo"
+          src="https://static.wixstatic.com/media/22946d_ae3e9e934e7845f4852bd9dc9ea41a79~mv2.jpg/v1/crop/x_350,y_0,w_550,h_717/fill/w_460,h_600,al_c,q_85,enc_avif,quality_auto/dr_gold_face.jpg"
+          alt="Dr. Gold – Fachärztin"
+        >
+        <span class="doctor-card__name">Dr. Gold</span>
+        <span class="doctor-card__spec">Fachärztin<br>Allgemeinmedizin &amp; Akupunktur</span>
+      </div>
+
     </div>
 
   </div>
 
-  <!-- Scroll-Indikator -->
   <div class="hero__scroll" aria-hidden="true">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
       <polyline points="6 9 12 15 18 9"/>
     </svg>
   </div>
-
 </section>
 
-<!-- Rest der Seite bleibt unverändert -->
 <div class="rest-note">
   <h2>↑ Nur dieser Bereich wird verändert</h2>
   <p>Navigation + Hero · Alle anderen Bereiche der Webseite bleiben exakt wie sie sind.</p>
 </div>
 
 <script>
+  /* ── Nav Scroll-Schatten ─────────────────── */
   window.addEventListener('scroll', function () {
     document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 10);
   }, { passive: true });
+
+  /* ── Öffnungszeiten-Status im Hero ─────────
+     Mo: 08–13 & 15–18 | Di: geschlossen
+     Mi: 08–13          | Do: 07–13 & 15–18
+     Fr: 08–13          | Sa/So: geschlossen
+     Bayerische + Bundesfeiertage: geschlossen
+  ─────────────────────────────────────────── */
+  (function () {
+    function getEaster(y) {
+      var a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,
+          f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),
+          h=(19*a+b-d-g+15)%30,ii=Math.floor(c/4),k=c%4,
+          l=(32+2*e+2*ii-h-k)%7,m=Math.floor((a+11*h+22*l)/451),
+          mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1;
+      return new Date(y, mo-1, da);
+    }
+
+    function isHoliday(d) {
+      var y=d.getFullYear(), mo=d.getMonth()+1, da=d.getDate();
+      /* Bundesfeiertage + bayerische Feiertage (fest) */
+      var fixed = [[1,1],[1,6],[5,1],[8,15],[10,3],[11,1],[12,24],[12,25],[12,26],[12,31]];
+      for (var i=0; i<fixed.length; i++)
+        if (fixed[i][0]===mo && fixed[i][1]===da) return true;
+      /* Bewegliche Feiertage (Ostern-basiert) */
+      var e    = getEaster(y);
+      var diff = Math.round((new Date(y,mo-1,da)-e)/86400000);
+      return diff===-2 || diff===1 || diff===39 || diff===50 || diff===60;
+    }
+
+    /* Zeiten als [vonMin, bisMin] — 0=So … 6=Sa */
+    var schedule = [
+      [],                        // So – geschlossen
+      [[480,780],[900,1080]],    // Mo – 08–13, 15–18
+      [],                        // Di – geschlossen
+      [[480,780]],               // Mi – 08–13
+      [[420,780],[900,1080]],    // Do – 07–13, 15–18
+      [[480,780]],               // Fr – 08–13
+      []                         // Sa – geschlossen
+    ];
+    var dayLabels = [
+      'Heute geschlossen (So)',
+      'Heute: 08–13 & 15–18 Uhr',
+      'Heute geschlossen (Di)',
+      'Heute: 08–13 Uhr',
+      'Heute: 07–13 & 15–18 Uhr',
+      'Heute: 08–13 Uhr',
+      'Heute geschlossen (Sa)'
+    ];
+
+    var now      = new Date();
+    var day      = now.getDay();
+    var mins     = now.getHours() * 60 + now.getMinutes();
+    var feiertag = isHoliday(now);
+    var slots    = feiertag ? [] : schedule[day];
+    var label    = feiertag ? 'Heute geschlossen (Feiertag)' : dayLabels[day];
+    var isOpen   = slots.length > 0 && slots.some(function(s){ return mins>=s[0] && mins<s[1]; });
+    var dotType  = slots.length === 0 ? 'off' : (isOpen ? 'open' : 'closed');
+
+    var wrap   = document.getElementById('heroStatus');
+    var dot    = document.getElementById('statusDot');
+    var text   = document.getElementById('statusText');
+    var badge  = document.getElementById('statusBadge');
+
+    dot.className  = 'status__dot status__dot--' + dotType;
+    text.textContent = label;
+
+    if (slots.length > 0) {
+      badge.textContent  = isOpen ? 'Geöffnet' : 'Geschlossen';
+      badge.className    = 'status__badge status__badge--' + (isOpen ? 'open' : 'closed');
+    } else {
+      badge.style.display = 'none';
+    }
+
+    wrap.style.display = 'inline-flex';
+  })();
 </script>
 </body>
 </html>
