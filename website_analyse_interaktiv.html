@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website-Analyse · Die Familienpraxis · praxisecht.de</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { font-family: 'Inter', system-ui, sans-serif; scroll-behavior: smooth; overflow-x: hidden; }
+    body { overflow-x: hidden; background: #0A0F24; }
+
+    /* ══ ANIMATIONS ══════════════════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.10s; }
+    .reveal-delay-2 { transition-delay: 0.22s; }
+    .reveal-delay-3 { transition-delay: 0.34s; }
+    .reveal-delay-4 { transition-delay: 0.46s; }
+    .reveal-left  { opacity: 0; transform: translateX(-36px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal-right { opacity: 0; transform: translateX(36px);  transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal-left.visible, .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+    /* ══ SHARED ══════════════════════════════════════════════ */
+    .section-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 5px 14px; border-radius: 20px; margin-bottom: 18px;
+    }
+    .section-label--red  { background: rgba(239,68,68,0.14); color: #F87171; border: 1px solid rgba(239,68,68,0.28); }
+    .section-label--blue { background: rgba(17,109,255,0.14); color: #60A5FA; border: 1px solid rgba(17,109,255,0.28); }
+    .section-label--green { background: rgba(34,197,94,0.14); color: #4ADE80; border: 1px solid rgba(34,197,94,0.28); }
+
+    /* ══ 1 · COVER ═══════════════════════════════════════════ */
+    .cover {
+      min-height: 100vh;
+      background: linear-gradient(145deg, #0A0F24 0%, #131B3F 50%, #0A0F24 100%);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 60px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cover::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 30%, rgba(17,109,255,0.09) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 80% 70%, rgba(97,184,240,0.07) 0%, transparent 60%);
+    }
+    .cover-grid {
+      position: absolute; inset: 0; opacity: 0.03;
+      background-image:
+        linear-gradient(rgba(255,255,255,1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .cover__agency {
+      position: relative; z-index: 2;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(255,255,255,0.38); margin-bottom: 48px;
+    }
+    .cover__agency span { color: #116DFF; }
+    .cover__kicker {
+      position: relative; z-index: 2;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.28);
+      color: #F87171; font-size: 11px; font-weight: 700; letter-spacing: 0.10em; text-transform: uppercase;
+      padding: 6px 16px; border-radius: 20px; margin-bottom: 28px;
+    }
+    .cover__kicker::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #EF4444; flex-shrink: 0; animation: pulse-red 1.8s ease-in-out infinite; }
+    @keyframes pulse-red { 0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,0.5);} 50%{box-shadow:0 0 0 6px rgba(239,68,68,0);} }
+    .cover__h1 {
+      position: relative; z-index: 2;
+      font-size: clamp(36px, 6vw, 72px);
+      font-weight: 800; line-height: 1.08; letter-spacing: -0.03em;
+      color: #fff; margin-bottom: 12px;
+    }
+    .cover__h1 span { color: #116DFF; }
+    .cover__sub {
+      position: relative; z-index: 2;
+      font-size: clamp(16px, 2vw, 20px); color: rgba(255,255,255,0.50); font-weight: 400;
+      line-height: 1.6; max-width: 520px; margin: 0 auto 48px;
+    }
+    .cover__meta {
+      position: relative; z-index: 2;
+      display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; margin-bottom: 56px;
+    }
+    .cover__meta-item {
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+    }
+    .cover__meta-item strong {
+      font-size: 28px; font-weight: 800; color: #fff; letter-spacing: -0.03em;
+    }
+    .cover__meta-item span { font-size: 11px; color: rgba(255,255,255,0.40); font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
+    .cover__divider { width: 1px; background: rgba(255,255,255,0.10); align-self: stretch; }
+    .cover__scroll {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: rgba(255,255,255,0.28); font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+      animation: bounce-arrow 2.2s ease-in-out infinite;
+    }
+    @keyframes bounce-arrow { 0%,100%{transform:translateY(0);} 50%{transform:translateY(7px);} }
+    .cover__scroll svg { width: 22px; height: 22px; }
+    .cover__date {
+      position: absolute; bottom: 24px; right: 32px; z-index: 2;
+      font-size: 11px; color: rgba(255,255,255,0.20); font-weight: 500;
+    }
+
+    /* ══ 2 · OVERVIEW ════════════════════════════════════════ */
+    .overview {
+      background: #0F1629;
+      padding: 80px 24px;
+    }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .overview__intro { text-align: center; margin-bottom: 52px; }
+    .overview__intro h2 {
+      font-size: clamp(26px, 4vw, 42px); font-weight: 800; color: #fff;
+      letter-spacing: -0.025em; margin-bottom: 12px; line-height: 1.12;
+    }
+    .overview__intro p { font-size: 15px; color: rgba(255,255,255,0.45); max-width: 560px; margin: 0 auto; line-height: 1.7; }
+    .problems-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .problem-chip {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 16px 18px;
+      display: flex; align-items: flex-start; gap: 12px;
+      transition: border-color 0.2s, background 0.2s;
+      cursor: default;
+    }
+    .problem-chip:hover { border-color: rgba(239,68,68,0.35); background: rgba(239,68,68,0.06); }
+    .problem-chip__num {
+      flex-shrink: 0;
+      width: 28px; height: 28px; border-radius: 8px;
+      background: rgba(239,68,68,0.14); border: 1px solid rgba(239,68,68,0.24);
+      color: #F87171; font-size: 12px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .problem-chip__text { font-size: 12.5px; color: rgba(255,255,255,0.70); line-height: 1.45; font-weight: 500; }
+    .problem-chip__text strong { color: #fff; font-weight: 700; display: block; margin-bottom: 2px; }
+
+    /* ══ 3 · NEW HERO PREVIEW ════════════════════════════════ */
+    .hero-preview-section {
+      background: linear-gradient(135deg, #0A0F24 0%, #101830 100%);
+      padding: 80px 24px;
+    }
+    .hero-preview-section__intro { text-align: center; margin-bottom: 40px; }
+    .hero-preview-section__intro h2 {
+      font-size: clamp(24px, 3.5vw, 38px); font-weight: 800; color: #fff;
+      letter-spacing: -0.025em; margin-bottom: 12px;
+    }
+    .hero-preview-section__intro p { font-size: 15px; color: rgba(255,255,255,0.45); line-height: 1.7; max-width: 560px; margin: 0 auto; }
+    .browser-frame {
+      max-width: 1060px; margin: 0 auto;
+      border-radius: 16px; overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.60), 0 0 0 1px rgba(255,255,255,0.08);
+    }
+    .browser-frame__bar {
+      background: #1E2230;
+      padding: 10px 14px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .browser-dots { display: flex; gap: 6px; }
+    .browser-dots span { width: 11px; height: 11px; border-radius: 50%; }
+    .browser-dots span:nth-child(1) { background: #FF5F57; }
+    .browser-dots span:nth-child(2) { background: #FEBC2E; }
+    .browser-dots span:nth-child(3) { background: #28C840; }
+    .browser-url {
+      flex: 1; background: #2A2F45; border-radius: 6px;
+      padding: 5px 12px; font-size: 11px; color: rgba(255,255,255,0.50);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .browser-url svg { width: 11px; height: 11px; flex-shrink: 0; }
+    .browser-badge { font-size: 10px; background: rgba(17,109,255,0.20); color: #60A5FA; padding: 2px 8px; border-radius: 10px; font-weight: 600; margin-left: auto; }
+
+    /* ══ THE EMBEDDED HERO (inline) ══════════════════════════ */
+    .embedded-hero {
+      background:
+        url('https://static.wixstatic.com/media/22946d_57072f4a5e2646c6936f508f5f335924~mv2.png/v1/fill/w_1920,h_900,al_c,q_90,enc_avif,quality_auto/22946d_57072f4a5e2646c6936f508f5f335924~mv2.png')
+        center 36% / cover no-repeat;
+      background-color: #1C2B5A;
+      height: 440px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .embedded-hero::before {
+      content: ''; position: absolute; inset: 0; z-index: 1;
+      background:
+        radial-gradient(ellipse 80% 90% at 50% 50%, rgba(12,16,48,0.28) 0%, rgba(12,16,48,0.48) 70%, rgba(12,16,48,0.68) 100%),
+        linear-gradient(to top, rgba(12,16,48,0.55) 0%, transparent 30%),
+        linear-gradient(to bottom, rgba(12,16,48,0.22) 0%, transparent 14%);
+    }
+    .eh-nav {
+      position: absolute; top: 0; left: 0; right: 0; z-index: 4;
+      height: 50px; background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+      display: flex; align-items: center; padding: 0 28px; gap: 20px;
+    }
+    .eh-logo-name { font-size: 13px; font-weight: 700; color: #182153; letter-spacing: -0.02em; }
+    .eh-logo-sub  { font-size: 9px; color: #5F79A1; display: block; }
+    .eh-links { flex: 1; display: flex; justify-content: center; gap: 2px; list-style: none; }
+    .eh-links li a { text-decoration: none; font-size: 11px; color: #182153; padding: 4px 10px; border-radius: 6px; font-weight: 500; }
+    .eh-cta { background: #116DFF; color: #fff; padding: 7px 16px; border-radius: 7px; font-size: 11px; font-weight: 600; text-decoration: none; white-space: nowrap; }
+    .eh-card {
+      position: relative; z-index: 3;
+      display: flex; align-items: center;
+      gap: 0;
+      background: rgba(14,18,52,0.52);
+      backdrop-filter: blur(22px);
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 22px; overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.36), inset 0 1px 0 rgba(255,255,255,0.12);
+      max-width: 760px;
+      width: calc(100% - 48px);
+      margin-top: 50px;
+    }
+    .eh-content {
+      flex: 1 1 auto;
+      padding: 28px 32px;
+    }
+    .eh-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.80); font-size: 9px; font-weight: 500; letter-spacing: 0.07em;
+      padding: 3px 11px; border-radius: 20px; margin-bottom: 12px; text-transform: uppercase;
+    }
+    .eh-tag::before { content:''; width:5px;height:5px;border-radius:50%;background:#61B8F0;flex-shrink:0; }
+    .eh-h1 {
+      font-size: 26px; font-weight: 700; color: #fff; line-height: 1.14;
+      letter-spacing: -0.024em; margin-bottom: 10px;
+      text-shadow: 0 2px 16px rgba(0,0,0,0.22);
+    }
+    .eh-h1 em { font-style:normal; text-decoration:underline; text-decoration-color:#116DFF; text-decoration-thickness:3px; text-underline-offset:5px; }
+    .eh-sub { font-size: 12px; color: rgba(255,255,255,0.68); line-height: 1.6; margin-bottom: 18px; }
+    .eh-status {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 30px; padding: 5px 13px 5px 9px; margin-bottom: 16px;
+    }
+    .eh-dot-open { width:7px;height:7px;border-radius:50%;background:#34D399;box-shadow:0 0 0 3px rgba(52,211,153,0.25);flex-shrink:0; }
+    .eh-status-text { font-size: 11px; color: rgba(255,255,255,0.88); font-weight: 500; }
+    .eh-status-badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; background: rgba(52,211,153,0.20); color: #6EE7B7; margin-left: 2px; }
+    .eh-btns { display: flex; gap: 8px; }
+    .eh-btn-primary { background:#116DFF;color:#fff;padding:9px 18px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;box-shadow:0 4px 16px rgba(17,109,255,0.40); }
+    .eh-btn-ghost { background:rgba(255,255,255,0.10);border:1.5px solid rgba(255,255,255,0.28);color:#fff;padding:9px 18px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none; }
+    .eh-divider { flex:0 0 1px;align-self:stretch;background:rgba(255,255,255,0.12); }
+    .eh-team {
+      flex: 0 0 auto; display: flex; align-items: flex-end; gap: 14px;
+      padding: 22px 24px 22px; position: relative;
+    }
+    .eh-team-label {
+      position:absolute;top:12px;left:50%;transform:translateX(-50%);
+      background:rgba(17,109,255,0.85);color:#fff;font-size:8px;font-weight:700;
+      letter-spacing:0.10em;text-transform:uppercase;padding:3px 10px;border-radius:20px;white-space:nowrap;
+    }
+    .eh-doc { display:flex;flex-direction:column;align-items:center;padding-top:20px; }
+    .eh-doc--gold { margin-bottom: 28px; }
+    .eh-doc img {
+      width: 106px; height: 138px;
+      object-fit:cover; object-position:center 6%;
+      border-radius:12px;
+      border:1.5px solid rgba(255,255,255,0.22);
+      box-shadow:0 4px 18px rgba(0,0,0,0.35);
+      filter:grayscale(100%) contrast(1.05) brightness(1.05);
+    }
+    .eh-doc__name { font-size:10px;font-weight:700;color:rgba(255,255,255,0.94);text-align:center;margin-top:7px;white-space:nowrap; }
+    .eh-doc__spec { font-size:9px;color:rgba(255,255,255,0.50);text-align:center;line-height:1.4;margin-top:2px; }
+    .new-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.25);
+      color: #4ADE80; font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
+      padding: 6px 14px; border-radius: 20px; margin-bottom: 16px;
+    }
+
+    /* ══ 4 · PROBLEM SECTIONS ═════════════════════════════════ */
+    .problems-section { padding: 0; }
+    .problem-item {
+      padding: 80px 24px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .problem-item:nth-child(odd)  { background: #0A0F24; }
+    .problem-item:nth-child(even) { background: #0D1228; }
+    .problem-layout {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 60px;
+    }
+    .problem-layout--flip .problem-browser { order: -1; }
+    .problem-text__num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 10px;
+      background: rgba(239,68,68,0.14); border: 1px solid rgba(239,68,68,0.28);
+      color: #F87171; font-size: 14px; font-weight: 800;
+      margin-bottom: 14px;
+    }
+    .problem-text h3 {
+      font-size: clamp(20px, 2.5vw, 28px); font-weight: 800;
+      color: #fff; letter-spacing: -0.025em; line-height: 1.18;
+      margin-bottom: 12px;
+    }
+    .problem-text__desc {
+      font-size: 15px; color: rgba(255,255,255,0.52);
+      line-height: 1.75; margin-bottom: 20px;
+    }
+    .problem-impact {
+      background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.20);
+      border-radius: 10px; padding: 14px 18px;
+    }
+    .problem-impact__label {
+      font-size: 9.5px; font-weight: 700; letter-spacing: 0.10em; text-transform: uppercase;
+      color: #F87171; margin-bottom: 6px; display: block;
+    }
+    .problem-impact p { font-size: 13px; color: rgba(255,255,255,0.58); line-height: 1.6; }
+
+    /* Browser mockup */
+    .problem-browser {
+      border-radius: 14px; overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.50), 0 0 0 1px rgba(255,255,255,0.07);
+      position: relative;
+    }
+    .pb-bar {
+      background: #1A1F35; padding: 8px 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .pb-dots { display:flex;gap:5px; }
+    .pb-dots span { width:10px;height:10px;border-radius:50%; }
+    .pb-dots span:nth-child(1){background:#FF5F57;}
+    .pb-dots span:nth-child(2){background:#FEBC2E;}
+    .pb-dots span:nth-child(3){background:#28C840;}
+    .pb-url {
+      flex:1;background:#242840;border-radius:5px;
+      padding:4px 10px;font-size:10px;color:rgba(255,255,255,0.35);
+    }
+    .pb-body { position: relative; overflow: hidden; }
+    /* Red annotation marker */
+    .anno {
+      position: absolute;
+      width: 32px; height: 32px;
+      border-radius: 50%; border: 2.5px solid #EF4444;
+      background: rgba(239,68,68,0.18);
+      display: flex; align-items: center; justify-content: center;
+      color: #EF4444; font-size: 13px; font-weight: 800;
+      z-index: 10;
+      animation: anno-pulse 2s ease-in-out infinite;
+    }
+    @keyframes anno-pulse {
+      0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,0.4);}
+      50%{box-shadow:0 0 0 8px rgba(239,68,68,0);}
+    }
+    .anno-line {
+      position: absolute; background: rgba(239,68,68,0.60);
+      height: 2px; transform-origin: left center; z-index: 9;
+    }
+
+    /* ── Problem 1: Blurry Hero ──────────────────── */
+    .p1-screen {
+      background: linear-gradient(135deg, #a8c8ef 0%, #7ba8d4 30%, #5a8fc4 60%, #8ab5d8 100%);
+      height: 220px; position: relative; overflow: hidden;
+    }
+    .p1-blur {
+      position: absolute; inset: 0;
+      background: inherit;
+      filter: blur(18px);
+    }
+    .p1-nav {
+      position: absolute; top: 0; left: 0; right: 0;
+      background: rgba(255,255,255,0.10);
+      height: 36px; display: flex; align-items: center; padding: 0 16px; gap: 6px;
+    }
+    .p1-nav-logo { font-size: 9px; color: rgba(255,255,255,0.30); font-weight: 700; }
+    .p1-loading {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .p1-spinner {
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 3px solid rgba(255,255,255,0.20);
+      border-top-color: rgba(255,255,255,0.60);
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .p1-loading span { font-size: 10px; color: rgba(255,255,255,0.40); }
+
+    /* ── Problem 2: Logo JGJGJG ──────────────────── */
+    .p2-screen {
+      background: #fff;
+      height: 180px; display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .p2-logo-area {
+      text-align: center;
+    }
+    .p2-logo-text {
+      font-size: 28px; font-weight: 300; color: rgba(0,0,0,0.22); letter-spacing: 0.08em;
+    }
+    .p2-logo-sub { font-size: 10px; color: rgba(0,0,0,0.15); letter-spacing: 0.06em; margin-top: 4px; }
+
+    /* ── Problem 3: No CTA ──────────────────────── */
+    .p3-screen {
+      background: #1C2B5A;
+      background-image: url('https://static.wixstatic.com/media/22946d_57072f4a5e2646c6936f508f5f335924~mv2.png/v1/fill/w_800,h_400,al_c,q_80,enc_avif,quality_auto/22946d_57072f4a5e2646c6936f508f5f335924~mv2.png');
+      background-size: cover; background-position: center;
+      height: 220px; position: relative; overflow: hidden;
+    }
+    .p3-overlay {
+      position: absolute; inset: 0;
+      background: rgba(12,16,48,0.62);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .p3-content { text-align: center; }
+    .p3-h { font-size: 18px; font-weight: 700; color: rgba(255,255,255,0.85); margin-bottom: 8px; }
+    .p3-sub { font-size: 11px; color: rgba(255,255,255,0.45); margin-bottom: 16px; }
+    .p3-missing {
+      border: 2px dashed rgba(239,68,68,0.50);
+      border-radius: 8px; padding: 8px 20px;
+      font-size: 11px; color: rgba(239,68,68,0.60);
+    }
+
+    /* ── Problem 4: Floating Portraits ──────────── */
+    .p4-screen {
+      background: #1C2B5A;
+      background-image: url('https://static.wixstatic.com/media/22946d_57072f4a5e2646c6936f508f5f335924~mv2.png/v1/fill/w_800,h_300,al_c,q_80,enc_avif,quality_auto/22946d_57072f4a5e2646c6936f508f5f335924~mv2.png');
+      background-size: cover; background-position: center;
+      height: 220px; position: relative; overflow: hidden;
+    }
+    .p4-overlay { position:absolute;inset:0;background:rgba(20,30,60,0.40); }
+    .p4-portraits {
+      position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 16px; align-items: flex-end;
+    }
+    .p4-portrait {
+      width: 70px; height: 90px;
+      object-fit: cover; border-radius: 8px;
+    }
+    .p4-portrait-placeholder {
+      width: 70px; height: 90px; border-radius: 8px;
+      background: linear-gradient(135deg, #c0c8d8 0%, #8090a8 100%);
+    }
+    .p4-name { font-size: 9px; color: rgba(255,255,255,0.70); text-align: center; margin-top: 4px; }
+
+    /* ── Problem 5: Generic Text ─────────────────── */
+    .p5-screen {
+      background: #fff; height: 200px; padding: 20px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .p5-h { font-size: 18px; font-weight: 600; color: #333; margin-bottom: 10px; }
+    .p5-text { font-size: 12px; color: #666; line-height: 1.6; max-width: 300px; }
+    .p5-generic-badge {
+      position: absolute; top: 8px; right: 8px;
+      background: #FFF3CD; border: 1px solid #F59E0B; border-radius: 6px;
+      padding: 3px 8px; font-size: 9px; color: #B45309; font-weight: 600;
+    }
+
+    /* ── Problem 6: Word-style bullet list ──────── */
+    .p6-screen {
+      background: #fff; height: 200px; padding: 20px;
+      position: relative; overflow: hidden;
+    }
+    .p6-title { font-size: 14px; font-weight: 700; color: #333; margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 8px; }
+    .p6-list { list-style: disc; padding-left: 18px; }
+    .p6-list li { font-size: 11px; color: #555; margin-bottom: 5px; line-height: 1.4; }
+    .p6-list li.p6-long { color: #777; }
+
+    /* ── Problem 7: Contact area ─────────────────── */
+    .p7-screen {
+      background: #f5f5f5; height: 200px; padding: 20px;
+      display: flex; gap: 20px; position: relative; overflow: hidden;
+    }
+    .p7-col { flex: 1; }
+    .p7-label { font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+    .p7-line { font-size: 11px; color: #555; margin-bottom: 5px; }
+    .p7-btn-small {
+      margin-top: 12px;
+      display: inline-block; background: #1C73B4; color: #fff;
+      padding: 4px 10px; border-radius: 4px; font-size: 9px; font-weight: 600;
+    }
+
+    /* ── Problem 8: Maps grey box ────────────────── */
+    .p8-screen {
+      background: #f5f5f5; height: 200px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .p8-maps-grey {
+      width: 80%; height: 80%; background: #D8D8D8;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 8px;
+    }
+    .p8-maps-grey svg { width: 28px; height: 28px; color: #aaa; }
+    .p8-maps-grey span { font-size: 10px; color: #aaa; }
+
+    /* ── Problem 9: Wix footer ───────────────────── */
+    .p9-screen {
+      background: #2C3E50; height: 160px; padding: 20px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      position: relative; overflow: hidden;
+    }
+    .p9-footer-row {
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid rgba(255,255,255,0.12); padding-top: 12px;
+    }
+    .p9-copy { font-size: 10px; color: rgba(255,255,255,0.35); }
+    .p9-wix { font-size: 10px; color: rgba(255,255,255,0.45); background: rgba(255,255,255,0.08); padding: 3px 10px; border-radius: 4px; }
+
+    /* ── Problem 10: SEO Title ───────────────────── */
+    .p10-screen {
+      background: #fff; height: 200px;
+      position: relative; overflow: hidden;
+    }
+    .p10-search-result {
+      padding: 20px;
+    }
+    .p10-url { font-size: 11px; color: #1A732F; margin-bottom: 3px; }
+    .p10-title { font-size: 17px; color: #1558D6; font-weight: 400; margin-bottom: 5px; text-decoration: underline; }
+    .p10-desc { font-size: 12px; color: #545454; line-height: 1.5; }
+    .p10-compare {
+      margin: 12px 20px;
+      background: #F0FFF4; border: 1px solid rgba(34,197,94,0.30);
+      border-radius: 8px; padding: 10px 14px;
+    }
+    .p10-compare__label { font-size: 9px; font-weight: 700; color: #16A34A; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px; }
+    .p10-compare__text { font-size: 13px; color: #1558D6; font-weight: 600; }
+
+    /* ══ 5 · CLOSING ══════════════════════════════════════════ */
+    .closing {
+      background: linear-gradient(145deg, #0A0F24 0%, #111728 100%);
+      padding: 100px 24px;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .closing::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(17,109,255,0.08) 0%, transparent 60%);
+    }
+    .closing__content { position: relative; z-index: 2; max-width: 640px; margin: 0 auto; }
+    .closing__summary {
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px; margin-bottom: 48px;
+    }
+    .summary-card {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px; padding: 22px 16px; text-align: center;
+    }
+    .summary-card__val { font-size: 36px; font-weight: 800; color: #fff; line-height: 1; margin-bottom: 6px; }
+    .summary-card__val--red { color: #F87171; }
+    .summary-card__val--green { color: #4ADE80; }
+    .summary-card__val--blue { color: #60A5FA; }
+    .summary-card__label { font-size: 11px; color: rgba(255,255,255,0.40); font-weight: 500; line-height: 1.4; }
+    .closing h2 {
+      font-size: clamp(26px, 4vw, 40px); font-weight: 800; color: #fff;
+      letter-spacing: -0.025em; margin-bottom: 14px;
+    }
+    .closing p { font-size: 16px; color: rgba(255,255,255,0.50); line-height: 1.7; margin-bottom: 36px; }
+    .closing__cta-group { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .cta-primary {
+      background: #116DFF; color: #fff; padding: 14px 32px; border-radius: 10px;
+      font-size: 14px; font-weight: 700; text-decoration: none;
+      box-shadow: 0 8px 24px rgba(17,109,255,0.35);
+      transition: background 0.15s, transform 0.1s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .cta-primary:hover { background: #0050CC; transform: translateY(-2px); }
+    .cta-ghost {
+      background: rgba(255,255,255,0.07); border: 1.5px solid rgba(255,255,255,0.20);
+      color: rgba(255,255,255,0.80); padding: 14px 32px; border-radius: 10px;
+      font-size: 14px; font-weight: 600; text-decoration: none;
+      transition: background 0.15s;
+    }
+    .cta-ghost:hover { background: rgba(255,255,255,0.12); }
+    .closing__sig {
+      margin-top: 52px; font-size: 12px; color: rgba(255,255,255,0.22);
+    }
+    .closing__sig strong { color: rgba(255,255,255,0.40); }
+
+    /* ══ RESPONSIVE ══════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .problem-layout { grid-template-columns: 1fr; gap: 32px; }
+      .problem-layout--flip .problem-browser { order: 0; }
+      .closing__summary { grid-template-columns: 1fr 1fr; }
+      .eh-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      .problems-grid { grid-template-columns: 1fr 1fr; }
+      .closing__summary { grid-template-columns: 1fr; }
+      .embedded-hero { height: 360px; }
+      .eh-card { flex-direction: column; }
+      .eh-team { padding: 14px 18px 18px; }
+      .eh-doc__spec { display: none; }
+    }
+    @media (max-width: 420px) {
+      .problems-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════
+     1 · COVER
+════════════════════════════════════════════════════════════ -->
+<section class="cover">
+  <div class="cover-grid"></div>
+
+  <div class="cover__agency reveal">praxisecht.de · <span>Alexander Mäding</span></div>
+
+  <div class="cover__kicker reveal reveal-delay-1">
+    Website-Analyse · Vertraulich
+  </div>
+
+  <h1 class="cover__h1 reveal reveal-delay-2">
+    Die Familienpraxis<br><span>hat 10 Probleme.</span>
+  </h1>
+
+  <p class="cover__sub reveal reveal-delay-3">
+    Was Ihre aktuelle Website Patienten kostet — und wie es besser geht.
+  </p>
+
+  <div class="cover__meta reveal reveal-delay-4">
+    <div class="cover__meta-item">
+      <strong>10</strong>
+      <span>Schwachstellen</span>
+    </div>
+    <div class="cover__divider"></div>
+    <div class="cover__meta-item">
+      <strong>3</strong>
+      <span>Kategorien</span>
+    </div>
+    <div class="cover__divider"></div>
+    <div class="cover__meta-item">
+      <strong>1</strong>
+      <span>Lösung</span>
+    </div>
+  </div>
+
+  <div class="cover__scroll reveal">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="6 9 12 15 18 9"/></svg>
+    Scrollen
+  </div>
+
+  <div class="cover__date">Juni 2026</div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     2 · PROBLEM OVERVIEW
+════════════════════════════════════════════════════════════ -->
+<section class="overview">
+  <div class="container">
+    <div class="overview__intro">
+      <div class="section-label section-label--red reveal">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        Analyse-Übersicht
+      </div>
+      <h2 class="reveal reveal-delay-1">Was auf die-familienpraxis.net<br>gerade nicht funktioniert</h2>
+      <p class="reveal reveal-delay-2">Jedes dieser Probleme kostet täglich Patienten, die Ihre Website besuchen — und dann wieder gehen.</p>
+    </div>
+
+    <div class="problems-grid">
+      <div class="problem-chip reveal reveal-delay-1">
+        <div class="problem-chip__num">1</div>
+        <div class="problem-chip__text"><strong>Hero ohne Botschaft</strong>Erster Eindruck: blauer Farbverlauf, kein Text, kein Nutzen</div>
+      </div>
+      <div class="problem-chip reveal reveal-delay-2">
+        <div class="problem-chip__num">2</div>
+        <div class="problem-chip__text"><strong>Logo kommuniziert die Person, nicht die Praxis</strong>"JG" kennt nur, wer Julia Gleixner kennt — neue Patienten nicht</div>
+      </div>
+      <div class="problem-chip reveal reveal-delay-3">
+        <div class="problem-chip__num">3</div>
+        <div class="problem-chip__text"><strong>Kein Termin-Button</strong>Kein klarer Call-to-Action auf der Startseite</div>
+      </div>
+      <div class="problem-chip reveal reveal-delay-1">
+        <div class="problem-chip__num">4</div>
+        <div class="problem-chip__text"><strong>Portraits schweben</strong>Fotos wirken freigestellt & uneingebettet auf dem Berg</div>
+      </div>
+      <div class="problem-chip reveal reveal-delay-2">
+        <div class="problem-chip__num">5</div>
+        <div class="problem-chip__text"><strong>Kein Nutzenversprechen</strong>"Herzlich Willkommen" statt konkreter Patientenbotschaft</div>
+      </div>
+      <div class="problem-chip reveal reveal-delay-3">
+        <div class="problem-chip__num">6</div>
+        <div class="problem-chip__text"><strong>Aktuelles = Word-Dokument</strong>Rohe Bullet-Liste ohne Design oder Struktur</div>
+      </div>
+      <div class="problem-chip reveal reveal-delay-1">
+        <div class="problem-chip__num">7</div>
+        <div class="problem-chip__text"><strong>Kontakt veraltet</strong>Nur Text, winziger Doctolib-Button, kein echter CTA</div>
+      </div>
+      <div class="problem-chip reveal reveal-delay-2">
+        <div class="problem-chip__num">8</div>
+        <div class="problem-chip__text"><strong>Langsame Ladezeit</strong>Wix lädt alle Inhalte asynchron – Google bestraft das im Ranking</div>
+      </div>
+      <div class="problem-chip reveal reveal-delay-3">
+        <div class="problem-chip__num">9</div>
+        <div class="problem-chip__text"><strong>Wix-Werbung im Footer</strong>"Erstellt mit Wix.com" – wirkt unprofessionell</div>
+      </div>
+      <div class="problem-chip reveal reveal-delay-1">
+        <div class="problem-chip__num">10</div>
+        <div class="problem-chip__text"><strong>SEO-Titel nicht patientenorientiert</strong>"Allgemeinmedizin JG" wird von Google kaum gefunden</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     3 · NEW HERO PREVIEW
+════════════════════════════════════════════════════════════ -->
+<section class="hero-preview-section">
+  <div class="container">
+    <div class="hero-preview-section__intro">
+      <div class="new-badge reveal">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        So könnte Ihre Website aussehen
+      </div>
+      <h2 class="reveal reveal-delay-1">Ihr neuer Hero-Bereich —<br>bereits fertig gestaltet</h2>
+      <p class="reveal reveal-delay-2">Modernes Design, beide Ärztinnen prominent, echter Termin-Button und Live-Öffnungszeiten. Alles in einem Blick.</p>
+    </div>
+
+    <div class="browser-frame reveal reveal-delay-2">
+      <div class="browser-frame__bar">
+        <div class="browser-dots">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="browser-url">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg>
+          die-familienpraxis.net
+          <span class="browser-badge">Neues Design</span>
+        </div>
+      </div>
+
+      <!-- Embedded hero (inline, not iframe) -->
+      <div class="embedded-hero">
+        <!-- Nav -->
+        <div class="eh-nav">
+          <div>
+            <span class="eh-logo-name">Die Familienpraxis</span>
+            <span class="eh-logo-sub">Allgemeinmedizin · München Bogenhausen</span>
+          </div>
+          <ul class="eh-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Team</a></li>
+            <li><a href="#">Leistungen</a></li>
+            <li><a href="#">Kontakt</a></li>
+          </ul>
+          <a href="#" class="eh-cta">Termin buchen</a>
+        </div>
+
+        <!-- Hero card -->
+        <div class="eh-card">
+          <!-- Text -->
+          <div class="eh-content">
+            <span class="eh-tag">München Bogenhausen · Freischützstraße 9</span>
+            <div class="eh-h1">
+              Ihre Hausarzt&shy;praxis<br>für die <em>ganze Familie</em>
+            </div>
+            <p class="eh-sub">Persönlich. Kompetent. Nah bei Ihnen.<br>Allgemeinmedizin · Chirurgie · Akupunktur</p>
+            <div class="eh-status">
+              <span class="eh-dot-open"></span>
+              <span class="eh-status-text">Heute: 08–13 & 15–18 Uhr</span>
+              <span class="eh-status-badge">Geöffnet</span>
+            </div>
+            <div class="eh-btns">
+              <a href="#" class="eh-btn-primary">Termin buchen</a>
+              <a href="#" class="eh-btn-ghost">Rezept anfordern</a>
+            </div>
+          </div>
+
+          <div class="eh-divider"></div>
+
+          <!-- Team -->
+          <div class="eh-team">
+            <span class="eh-team-label">Ärzteteam</span>
+            <div class="eh-doc">
+              <img
+                src="https://static.wixstatic.com/media/22946d_ae3e9e934e7845f4852bd9dc9ea41a79~mv2.jpg/v1/crop/x_830,y_120,w_500,h_652/fill/w_460,h_600,al_c,q_85,enc_avif,quality_auto/julia_team.jpg"
+                alt="Julia Gleixner"
+              >
+              <span class="eh-doc__name">Julia Gleixner</span>
+              <span class="eh-doc__spec">Fachärztin<br>Allgemeinmedizin</span>
+            </div>
+            <div class="eh-doc eh-doc--gold">
+              <img
+                src="https://static.wixstatic.com/media/22946d_ae3e9e934e7845f4852bd9dc9ea41a79~mv2.jpg/v1/crop/x_350,y_0,w_550,h_717/fill/w_460,h_600,al_c,q_85,enc_avif,quality_auto/dr_gold_face.jpg"
+                alt="Dr. Gold"
+              >
+              <span class="eh-doc__name">Dr. Gold</span>
+              <span class="eh-doc__spec">Fachärztin<br>Allgemeinmedizin</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     4 · PROBLEM SECTIONS (1–10)
+════════════════════════════════════════════════════════════ -->
+<section class="problems-section">
+
+  <!-- ─ Problem 1: Hero ohne Botschaft ─────────────────────── -->
+  <div class="problem-item">
+    <div class="problem-layout container">
+      <div class="problem-text">
+        <div class="section-label section-label--red reveal">UX · Erster Eindruck</div>
+        <div class="problem-text__num reveal reveal-delay-1">1</div>
+        <h3 class="reveal reveal-delay-1">Der Hero lädt — aber sagt nichts</h3>
+        <p class="problem-text__desc reveal reveal-delay-2">
+          Beim Seitenaufruf erscheint zuerst ein blauer Farbverlauf. Kein Text, kein Arztname, kein Hinweis, was diese Praxis überhaupt ist. Wix lädt die Inhalte asynchron nach — in dieser Zeit verlieren viele Besucher das Interesse sofort.
+        </p>
+        <div class="problem-impact reveal reveal-delay-3">
+          <span class="problem-impact__label">Warum das wichtig ist</span>
+          <p>Studien zeigen: Nutzer entscheiden in 0,05 Sekunden, ob sie bleiben. Ein leerer Hero ist das Schlimmste, was auf einer Praxis-Website passieren kann.</p>
+        </div>
+      </div>
+
+      <div class="problem-browser reveal reveal-delay-2">
+        <div class="pb-bar">
+          <div class="pb-dots"><span></span><span></span><span></span></div>
+          <div class="pb-url">die-familienpraxis.net</div>
+        </div>
+        <div class="pb-body">
+          <div class="p1-screen">
+            <div class="p1-blur"></div>
+            <div class="p1-nav">
+              <span class="p1-nav-logo">JGJGJG</span>
+            </div>
+            <div class="p1-loading">
+              <div class="p1-spinner"></div>
+              <span>Inhalt lädt …</span>
+            </div>
+          </div>
+          <div class="anno" style="top:44%;left:44%;">!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─ Problem 2: Logo unleserlich ────────────────────────── -->
+  <div class="problem-item">
+    <div class="problem-layout problem-layout--flip container">
+      <div class="problem-text">
+        <div class="section-label section-label--red reveal">Marke · Identität</div>
+        <div class="problem-text__num reveal reveal-delay-1">2</div>
+        <h3 class="reveal reveal-delay-1">Logo "JG" — die Inhaberin kennt sich, neue Patienten nicht</h3>
+        <p class="problem-text__desc reveal reveal-delay-2">
+          "JG" sind die Initialen von Julia Gleixner — das weiß jeder, der sie kennt. Aber ein neuer Patient, der über Google auf die Seite kommt, hat keinen Bezug dazu. Die Praxis heißt "Die Familienpraxis" — ein warmer, starker Name, der Vertrauen schafft. Doch genau dieser Name erscheint im Logo nirgends.
+        </p>
+        <div class="problem-impact reveal reveal-delay-3">
+          <span class="problem-impact__label">Was das bedeutet</span>
+          <p>Das Logo kommuniziert die Person statt die Praxis. Für Bestandspatienten ist das vertraut — für Neupatienten fehlt der entscheidende erste Hinweis: Hier bin ich richtig.</p>
+        </div>
+      </div>
+
+      <div class="problem-browser reveal reveal-delay-2">
+        <div class="pb-bar">
+          <div class="pb-dots"><span></span><span></span><span></span></div>
+          <div class="pb-url">die-familienpraxis.net · Navigation</div>
+        </div>
+        <div class="pb-body">
+          <div class="p2-screen">
+            <div class="p2-logo-area">
+              <div class="p2-logo-text">JGJGJG</div>
+              <div class="p2-logo-sub">Allgemeinmedizin</div>
+            </div>
+            <div class="anno" style="top:30%;left:35%;">!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─ Problem 3: Kein CTA-Button ─────────────────────────── -->
+  <div class="problem-item">
+    <div class="problem-layout container">
+      <div class="problem-text">
+        <div class="section-label section-label--red reveal">UX · Conversion</div>
+        <div class="problem-text__num reveal reveal-delay-1">3</div>
+        <h3 class="reveal reveal-delay-1">Kein Termin-Button — Patienten wissen nicht, was tun</h3>
+        <p class="problem-text__desc reveal reveal-delay-2">
+          Es gibt keinen prominenten "Termin buchen"-Button im Hero oder in der Navigation. Der Doctolib-Link ist klein und versteckt. Ein Patient, der einen Arzttermin sucht, findet den Weg nicht intuitiv.
+        </p>
+        <div class="problem-impact reveal reveal-delay-3">
+          <span class="problem-impact__label">Warum das wichtig ist</span>
+          <p>Ein gut platzierter Termin-Button ist das wichtigste Conversion-Element einer Praxis-Website. Fehlt er, wechseln Patienten zur nächsten Praxis in der Google-Suche.</p>
+        </div>
+      </div>
+
+      <div class="problem-browser reveal reveal-delay-2">
+        <div class="pb-bar">
+          <div class="pb-dots"><span></span><span></span><span></span></div>
+          <div class="pb-url">die-familienpraxis.net</div>
+        </div>
+        <div class="pb-body">
+          <div class="p3-screen">
+            <div class="p3-overlay">
+              <div class="p3-content">
+                <div class="p3-h">Die Familienpraxis</div>
+                <div class="p3-sub">Allgemeinmedizin · München Bogenhausen</div>
+                <div class="p3-missing">Wo ist der Termin-Button?</div>
+              </div>
+            </div>
+          </div>
+          <div class="anno" style="bottom:22%;left:26%;">!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─ Problem 4: Schwebende Portraits ────────────────────── -->
+  <div class="problem-item">
+    <div class="problem-layout problem-layout--flip container">
+      <div class="problem-text">
+        <div class="section-label section-label--red reveal">Design · Visuell</div>
+        <div class="problem-text__num reveal reveal-delay-1">4</div>
+        <h3 class="reveal reveal-delay-1">Portraits schweben uneingebettet auf dem Bergfoto</h3>
+        <p class="problem-text__desc reveal reveal-delay-2">
+          Die Fotos der Ärztinnen werden als freigestellte Bilder einfach vor das Panoramabild gesetzt — ohne Rahmen, ohne Card, ohne visuellen Kontext. Das wirkt zusammengestückelt und unprofessionell.
+        </p>
+        <div class="problem-impact reveal reveal-delay-3">
+          <span class="problem-impact__label">Warum das wichtig ist</span>
+          <p>Vertrauen beginnt mit Gesichtern. Wenn Portraits chaotisch wirken, überträgt sich das unbewusst auf die wahrgenommene Qualität der Praxis.</p>
+        </div>
+      </div>
+
+      <div class="problem-browser reveal reveal-delay-2">
+        <div class="pb-bar">
+          <div class="pb-dots"><span></span><span></span><span></span></div>
+          <div class="pb-url">die-familienpraxis.net · Team-Bereich</div>
+        </div>
+        <div class="pb-body">
+          <div class="p4-screen">
+            <div class="p4-overlay"></div>
+            <div class="p4-portraits">
+              <div style="text-align:center">
+                <div class="p4-portrait-placeholder" style="background:linear-gradient(135deg,#9BA8C0,#6B7A90);"></div>
+                <div class="p4-name" style="color:rgba(255,255,255,0.60);">Dr. Gleixner</div>
+              </div>
+              <div style="text-align:center">
+                <div class="p4-portrait-placeholder" style="background:linear-gradient(135deg,#C8B89A,#A09278);"></div>
+                <div class="p4-name" style="color:rgba(255,255,255,0.60);">Dr. Gold</div>
+              </div>
+            </div>
+            <div class="anno" style="bottom:28%;left:30%;">!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─ Problem 5: Herzlich Willkommen ─────────────────────── -->
+  <div class="problem-item">
+    <div class="problem-layout container">
+      <div class="problem-text">
+        <div class="section-label section-label--red reveal">Content · Botschaft</div>
+        <div class="problem-text__num reveal reveal-delay-1">5</div>
+        <h3 class="reveal reveal-delay-1">"Herzlich Willkommen" — generischer Text ohne Nutzen</h3>
+        <p class="problem-text__desc reveal reveal-delay-2">
+          Der Haupttext der Website beginnt mit "Herzlich Willkommen in unserer Praxis" — ein Satz, den tausende Arztpraxen in Deutschland verwenden. Es gibt kein konkretes Nutzenversprechen: Was macht diese Praxis besonders? Warum hier und nicht woanders?
+        </p>
+        <div class="problem-impact reveal reveal-delay-3">
+          <span class="problem-impact__label">Warum das wichtig ist</span>
+          <p>Patienten suchen Antworten auf ihre spezifischen Bedürfnisse. "Herzlich Willkommen" beantwortet keine einzige davon.</p>
+        </div>
+      </div>
+
+      <div class="problem-browser reveal reveal-delay-2">
+        <div class="pb-bar">
+          <div class="pb-dots"><span></span><span></span><span></span></div>
+          <div class="pb-url">die-familienpraxis.net · Startseite</div>
+        </div>
+        <div class="pb-body">
+          <div class="p5-screen">
+            <div class="p5-generic-badge">⚠ Generisch</div>
+            <h2 class="p5-h">Herzlich Willkommen</h2>
+            <div style="border:1.5px dashed #ccc;border-radius:6px;padding:10px 14px;text-align:left;max-width:300px;">
+              <div style="font-size:9px;font-weight:700;color:#bbb;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Originaltext der Website</div>
+              <div style="height:8px;background:#eee;border-radius:3px;margin-bottom:5px;width:90%;"></div>
+              <div style="height:8px;background:#eee;border-radius:3px;margin-bottom:5px;width:75%;"></div>
+              <div style="height:8px;background:#eee;border-radius:3px;width:83%;"></div>
+            </div>
+            <div class="anno" style="top:12%;left:12%;">!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─ Problem 6: Word-Bullet-Liste ───────────────────────── -->
+  <div class="problem-item">
+    <div class="problem-layout problem-layout--flip container">
+      <div class="problem-text">
+        <div class="section-label section-label--red reveal">Content · Qualität</div>
+        <div class="problem-text__num reveal reveal-delay-1">6</div>
+        <h3 class="reveal reveal-delay-1">Aktuelles wirkt wie ein Word-Dokument</h3>
+        <p class="problem-text__desc reveal reveal-delay-2">
+          Der Aktuelles-Bereich zeigt eine unformatierte schwarze Bullet-Liste auf weißem Hintergrund. Kein Design, keine Kategorien, keine Datumsangaben. Das sieht aus, als wäre ein internes Memo direkt auf die Website kopiert worden.
+        </p>
+        <div class="problem-impact reveal reveal-delay-3">
+          <span class="problem-impact__label">Warum das wichtig ist</span>
+          <p>Wichtige Informationen (Urlaub, neue Sprechzeiten, Grippeschutz) erreichen Patienten nicht effektiv, wenn sie im visuellen Chaos untergehen.</p>
+        </div>
+      </div>
+
+      <div class="problem-browser reveal reveal-delay-2">
+        <div class="pb-bar">
+          <div class="pb-dots"><span></span><span></span><span></span></div>
+          <div class="pb-url">die-familienpraxis.net · Aktuelles</div>
+        </div>
+        <div class="pb-body">
+          <div class="p6-screen">
+            <div class="p6-title">Aktuelles</div>
+            <ul class="p6-list">
+              <li style="color:#bbb;font-style:italic;">[Originaltext der Website]</li>
+              <li style="color:#bbb;font-style:italic;">[Originaltext der Website]</li>
+              <li style="color:#bbb;font-style:italic;">[Originaltext der Website]</li>
+              <li style="color:#bbb;font-style:italic;">[Originaltext der Website]</li>
+            </ul>
+            <div class="anno" style="top:16%;right:10%;">!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─ Problem 7: Kontaktbereich veraltet ─────────────────── -->
+  <div class="problem-item">
+    <div class="problem-layout container">
+      <div class="problem-text">
+        <div class="section-label section-label--red reveal">UX · Kontakt</div>
+        <div class="problem-text__num reveal reveal-delay-1">7</div>
+        <h3 class="reveal reveal-delay-1">Kontaktbereich: reiner Text, winziger Doctolib-Button</h3>
+        <p class="problem-text__desc reveal reveal-delay-2">
+          Der Kontaktbereich listet Adresse und Telefon als reinen Text auf — ohne visuelles Design. Der Doctolib-Termin-Link ist ein kleiner, unscheinbarer Button ganz am Ende. Wer diesen Bereich erreicht, hat schon viel gesucht.
+        </p>
+        <div class="problem-impact reveal reveal-delay-3">
+          <span class="problem-impact__label">Warum das wichtig ist</span>
+          <p>Der Kontaktbereich ist eine kritische Conversion-Zone. Hier entscheidet sich, ob ein Besucher tatsächlich Kontakt aufnimmt — er braucht klare Signale und einen prominenten CTA.</p>
+        </div>
+      </div>
+
+      <div class="problem-browser reveal reveal-delay-2">
+        <div class="pb-bar">
+          <div class="pb-dots"><span></span><span></span><span></span></div>
+          <div class="pb-url">die-familienpraxis.net · Kontakt</div>
+        </div>
+        <div class="pb-body">
+          <div class="p7-screen">
+            <div class="p7-col">
+              <div class="p7-label">Adresse</div>
+              <div class="p7-line">Freischützstraße 9</div>
+              <div class="p7-line">81927 München</div>
+              <div class="p7-label" style="margin-top:10px">Telefon</div>
+              <div class="p7-line">089 / 95 12 77</div>
+              <div class="p7-btn-small">Termin bei Doctolib</div>
+            </div>
+            <div class="p7-col">
+              <div class="p7-label">Öffnungszeiten</div>
+              <div class="p7-line">Mo: 08–13 & 15–18</div>
+              <div class="p7-line">Mi: 08–13</div>
+              <div class="p7-line">Do: 07–13 & 15–18</div>
+              <div class="p7-line">Fr: 08–13</div>
+              <div class="p7-line" style="color:#aaa;">Di/Sa/So: geschlossen</div>
+            </div>
+            <div class="anno" style="bottom:28%;left:12%;">!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─ Problem 8: Ladezeit ────────────────────────────────── -->
+  <div class="problem-item">
+    <div class="problem-layout problem-layout--flip container">
+      <div class="problem-text">
+        <div class="section-label section-label--red reveal">Technik · Performance</div>
+        <div class="problem-text__num reveal reveal-delay-1">8</div>
+        <h3 class="reveal reveal-delay-1">Langsame Ladezeit — Wix bremst Google-Ranking und Geduld</h3>
+        <p class="problem-text__desc reveal reveal-delay-2">
+          Wix lädt alle Inhalte asynchron nach — das bedeutet: Die Seite erscheint erst vollständig, nachdem Skripte, Bilder und Widgets geladen sind. Google misst das mit den "Core Web Vitals" und bewertet langsame Seiten schlechter in den Suchergebnissen.
+        </p>
+        <div class="problem-impact reveal reveal-delay-3">
+          <span class="problem-impact__label">Warum das wichtig ist</span>
+          <p>Jede Sekunde Ladezeit kostet Besucher. Studien zeigen: 53 % der Nutzer verlassen eine Seite, die länger als 3 Sekunden lädt. Wix-Seiten liegen oft darüber.</p>
+        </div>
+      </div>
+
+      <div class="problem-browser reveal reveal-delay-2">
+        <div class="pb-bar">
+          <div class="pb-dots"><span></span><span></span><span></span></div>
+          <div class="pb-url">pagespeed.web.dev · Core Web Vitals</div>
+        </div>
+        <div class="pb-body">
+          <div class="p8-screen" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:#fff;padding:20px;">
+            <div style="font-size:11px;color:#555;font-weight:600;margin-bottom:4px;">Google PageSpeed – Mobil</div>
+            <div style="display:flex;gap:14px;align-items:center;">
+              <div style="text-align:center;">
+                <div style="width:56px;height:56px;border-radius:50%;border:4px solid #EF4444;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#EF4444;">38</div>
+                <div style="font-size:9px;color:#999;margin-top:4px;">Leistung</div>
+              </div>
+              <div style="text-align:left;">
+                <div style="font-size:10px;color:#EF4444;font-weight:700;">● LCP: 4,8 s (langsam)</div>
+                <div style="font-size:10px;color:#F59E0B;font-weight:600;margin-top:3px;">● TBT: 1.240 ms</div>
+                <div style="font-size:10px;color:#EF4444;font-weight:600;margin-top:3px;">● CLS: 0,22 (instabil)</div>
+              </div>
+            </div>
+            <div style="font-size:9px;color:#aaa;">Typische Werte für Wix-basierte Websites</div>
+          </div>
+          <div class="anno" style="top:14px;right:12px;">!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─ Problem 9: Wix-Werbung im Footer ───────────────────── -->
+  <div class="problem-item">
+    <div class="problem-layout container">
+      <div class="problem-text">
+        <div class="section-label section-label--red reveal">Professionalität · Vertrauen</div>
+        <div class="problem-text__num reveal reveal-delay-1">9</div>
+        <h3 class="reveal reveal-delay-1">"Erstellt mit Wix.com" — und das Urheberrechtsjahr bleibt stehen</h3>
+        <p class="problem-text__desc reveal reveal-delay-2">
+          Im Footer steht "Erstellt mit Wix.com" — die Praxis macht Werbung für einen amerikanischen Website-Baukasten, kostenlos. Dazu kommt: Das Copyright-Jahr im Footer ("© 2025") ist in Wix fest hinterlegt und muss jedes Jahr manuell geändert werden. Passiert das nicht, steht dort veraltetes Jahr — ein kleines Detail, das professionellen Websites nicht passiert.
+        </p>
+        <div class="problem-impact reveal reveal-delay-3">
+          <span class="problem-impact__label">Warum das wichtig ist</span>
+          <p>Zwei unscheinbare Zeilen im Footer — und doch sagen sie: Diese Seite wurde nicht individuell gebaut und wird nicht aktiv gepflegt. Für Patienten, die Vertrauen suchen, sind das keine guten Signale.</p>
+        </div>
+      </div>
+
+      <div class="problem-browser reveal reveal-delay-2">
+        <div class="pb-bar">
+          <div class="pb-dots"><span></span><span></span><span></span></div>
+          <div class="pb-url">die-familienpraxis.net · Footer</div>
+        </div>
+        <div class="pb-body">
+          <div class="p9-screen">
+            <div style="padding:0 0 8px; font-size:11px; color:rgba(255,255,255,0.25);">
+              Die Familienpraxis · Freischützstraße 9 · 81927 München
+            </div>
+            <div class="p9-footer-row">
+              <span class="p9-copy" id="footerYear">© 2025 Die Familienpraxis</span>
+              <span class="p9-wix">Erstellt mit Wix.com</span>
+            </div>
+            <div class="anno" style="bottom:10px;right:70px;">!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─ Problem 10: SEO-Titel ──────────────────────────────── -->
+  <div class="problem-item">
+    <div class="problem-layout problem-layout--flip container">
+      <div class="problem-text">
+        <div class="section-label section-label--red reveal">SEO · Auffindbarkeit</div>
+        <div class="problem-text__num reveal reveal-delay-1">10</div>
+        <h3 class="reveal reveal-delay-1">SEO-Titel "Allgemeinmedizin JG" findet kein Patient</h3>
+        <p class="problem-text__desc reveal reveal-delay-2">
+          Der Browser-Tab und Google-Sucheintrag zeigen "Allgemeinmedizin JG" als Seitentitel. Kein Patient sucht nach "JG" — sie suchen nach "Hausarzt München Bogenhausen" oder "Allgemeinarzt Freischützstraße". Der Titel vergibt wertvolles SEO-Potenzial.
+        </p>
+        <div class="problem-impact reveal reveal-delay-3">
+          <span class="problem-impact__label">Warum das wichtig ist</span>
+          <p>Google liest den Seitentitel als wichtigstes SEO-Signal. Ein optimierter Titel wie "Hausarzt München Bogenhausen · Die Familienpraxis" würde messbar mehr Patienten über Google bringen.</p>
+        </div>
+      </div>
+
+      <div class="problem-browser reveal reveal-delay-2">
+        <div class="pb-bar">
+          <div class="pb-dots"><span></span><span></span><span></span></div>
+          <div class="pb-url">google.com · Suchergebnis</div>
+        </div>
+        <div class="pb-body" style="background:#fff;">
+          <div class="p10-screen">
+            <div class="p10-search-result">
+              <div class="p10-url">die-familienpraxis.net</div>
+              <div class="p10-title">Allgemeinmedizin JG</div>
+              <div class="p10-desc" style="color:#bbb;font-style:italic;">[Meta-Description der Website – Originaltext]</div>
+            </div>
+            <div class="p10-compare">
+              <div class="p10-compare__label">✓ So könnte es klingen</div>
+              <div class="p10-compare__text">Hausarzt München Bogenhausen · Die Familienpraxis · Dr. Gold</div>
+            </div>
+            <div class="anno" style="top:40px;right:14px;">!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     5 · CLOSING / CTA
+════════════════════════════════════════════════════════════ -->
+<section class="closing">
+  <div class="closing__content">
+
+    <div class="closing__summary">
+      <div class="summary-card reveal">
+        <div class="summary-card__val summary-card__val--red">10</div>
+        <div class="summary-card__label">Probleme identifiziert</div>
+      </div>
+      <div class="summary-card reveal reveal-delay-1">
+        <div class="summary-card__val summary-card__val--green">1</div>
+        <div class="summary-card__label">Lösung, die alle behebt</div>
+      </div>
+      <div class="summary-card reveal reveal-delay-2">
+        <div class="summary-card__val summary-card__val--blue">∞</div>
+        <div class="summary-card__label">Patienten, die Sie nicht verpassen</div>
+      </div>
+    </div>
+
+    <div class="section-label section-label--blue reveal" style="margin-bottom:20px;">Nächster Schritt</div>
+    <h2 class="reveal reveal-delay-1">Bereit für eine<br>Praxis-Website, die wirkt?</h2>
+    <p class="reveal reveal-delay-2">
+      Der neue Hero ist bereits fertig gestaltet. Der nächste Schritt ist ein kurzes Gespräch — 30 Minuten reichen, um den Plan für die vollständige Umsetzung zu definieren.
+    </p>
+
+    <div class="closing__cta-group reveal reveal-delay-3">
+      <a href="mailto:anfrage@praxisecht.de?subject=Anpassung%20meiner%20Webseite%20%2F%20neue%20Webseite" class="cta-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Gespräch vereinbaren
+      </a>
+      <a href="https://bright-sable-7f465f.netlify.app/" target="_blank" class="cta-ghost">Neues Design live ansehen</a>
+    </div>
+
+    <div class="closing__sig reveal">
+      Erstellt von <strong>Alexander Mäding · praxisecht.de</strong><br>
+      Ihre Praxis verdient einen professionellen Auftritt.
+    </div>
+  </div>
+</section>
+
+
+<script>
+  /* ── Aktuelles Jahr im Footer-Mockup ── */
+  (function () {
+    var el = document.getElementById('footerYear');
+    if (el) el.textContent = '© ' + new Date().getFullYear() + ' Die Familienpraxis';
+  })();
+
+  /* ── IntersectionObserver: Scroll-Animationen ── */
+  (function () {
+    var els = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function(el){ el.classList.add('visible'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function(el){ io.observe(el); });
+  })();
+</script>
+
+</body>
+</html>
