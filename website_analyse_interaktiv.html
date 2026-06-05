@@ -601,10 +601,14 @@
     @media (max-width: 600px) {
       .problems-grid { grid-template-columns: 1fr 1fr; }
       .closing__summary { grid-template-columns: 1fr; }
-      .embedded-hero { height: 360px; }
-      .eh-card { flex-direction: column; }
-      .eh-team { padding: 14px 18px 18px; }
-      .eh-doc__spec { display: none; }
+      .embedded-hero { height: 320px; }
+      .eh-card { flex-direction: row; align-items: center; width: calc(100% - 24px); }
+      .eh-team { display: none; }
+      .eh-content { padding: 20px 22px; }
+      .eh-h1 { font-size: 20px; }
+      .eh-sub { font-size: 11px; margin-bottom: 12px; }
+      .eh-btns { gap: 6px; }
+      .eh-btn-primary, .eh-btn-ghost { padding: 7px 12px; font-size: 11px; }
     }
     @media (max-width: 420px) {
       .problems-grid { grid-template-columns: 1fr; }
