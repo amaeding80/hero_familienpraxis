@@ -601,10 +601,14 @@
     @media (max-width: 600px) {
       .problems-grid { grid-template-columns: 1fr 1fr; }
       .closing__summary { grid-template-columns: 1fr; }
-      .embedded-hero { height: 360px; }
-      .eh-card { flex-direction: column; }
-      .eh-team { padding: 14px 18px 18px; }
-      .eh-doc__spec { display: none; }
+      .embedded-hero { height: 320px; }
+      .eh-card { flex-direction: row; align-items: center; width: calc(100% - 24px); }
+      .eh-team { display: none; }
+      .eh-content { padding: 20px 22px; }
+      .eh-h1 { font-size: 20px; }
+      .eh-sub { font-size: 11px; margin-bottom: 12px; }
+      .eh-btns { gap: 6px; }
+      .eh-btn-primary, .eh-btn-ghost { padding: 7px 12px; font-size: 11px; }
     }
     @media (max-width: 420px) {
       .problems-grid { grid-template-columns: 1fr; }
@@ -704,7 +708,7 @@
       </div>
       <div class="problem-chip reveal reveal-delay-2">
         <div class="problem-chip__num">8</div>
-        <div class="problem-chip__text"><strong>Langsame Ladezeit</strong>Wix lädt alle Inhalte asynchron – Google bestraft das im Ranking</div>
+        <div class="problem-chip__text"><strong>PageSpeed Mobil 84</strong>Handgebaute Seite erreicht 95–100 – jeder Punkt zählt im Ranking</div>
       </div>
       <div class="problem-chip reveal reveal-delay-3">
         <div class="problem-chip__num">9</div>
@@ -1093,13 +1097,13 @@
       <div class="problem-text">
         <div class="section-label section-label--red reveal">Technik · Performance</div>
         <div class="problem-text__num reveal reveal-delay-1">8</div>
-        <h3 class="reveal reveal-delay-1">Langsame Ladezeit — Wix bremst Google-Ranking und Geduld</h3>
+        <h3 class="reveal reveal-delay-1">PageSpeed Mobil 84 — Luft nach oben, die Wix nicht ausschöpft</h3>
         <p class="problem-text__desc reveal reveal-delay-2">
-          Wix lädt alle Inhalte asynchron nach — das bedeutet: Die Seite erscheint erst vollständig, nachdem Skripte, Bilder und Widgets geladen sind. Google misst das mit den "Core Web Vitals" und bewertet langsame Seiten schlechter in den Suchergebnissen.
+          Google PageSpeed bewertet die Seite auf dem Smartphone mit 84 von 100 — solide, aber kein Spitzenwert. Wix lädt Inhalte asynchron nach und baut auf ein globales CDN, das Sie nicht kontrollieren können. Eine handgebaute Seite erreicht hier regelmäßig 95–100.
         </p>
         <div class="problem-impact reveal reveal-delay-3">
           <span class="problem-impact__label">Warum das wichtig ist</span>
-          <p>Jede Sekunde Ladezeit kostet Besucher. Studien zeigen: 53 % der Nutzer verlassen eine Seite, die länger als 3 Sekunden lädt. Wix-Seiten liegen oft darüber.</p>
+          <p>Google bevorzugt schnellere Seiten bei gleichem Inhalt. Jeder Punkt mehr bei den Core Web Vitals ist ein kleiner Vorteil gegenüber Wettbewerbern — besonders wenn die anderen Praxen in München auch auf Wix oder WordPress setzen.</p>
         </div>
       </div>
 
@@ -1113,16 +1117,16 @@
             <div style="font-size:11px;color:#555;font-weight:600;margin-bottom:4px;">Google PageSpeed – Mobil</div>
             <div style="display:flex;gap:14px;align-items:center;">
               <div style="text-align:center;">
-                <div style="width:56px;height:56px;border-radius:50%;border:4px solid #EF4444;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#EF4444;">38</div>
+                <div style="width:56px;height:56px;border-radius:50%;border:4px solid #F59E0B;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#F59E0B;">84</div>
                 <div style="font-size:9px;color:#999;margin-top:4px;">Leistung</div>
               </div>
               <div style="text-align:left;">
-                <div style="font-size:10px;color:#EF4444;font-weight:700;">● LCP: 4,8 s (langsam)</div>
-                <div style="font-size:10px;color:#F59E0B;font-weight:600;margin-top:3px;">● TBT: 1.240 ms</div>
-                <div style="font-size:10px;color:#EF4444;font-weight:600;margin-top:3px;">● CLS: 0,22 (instabil)</div>
+                <div style="font-size:10px;color:#F59E0B;font-weight:700;">● Verbesserungspotenzial vorhanden</div>
+                <div style="font-size:10px;color:#999;font-weight:500;margin-top:3px;">● Wix-CDN nicht kontrollierbar</div>
+                <div style="font-size:10px;color:#4ADE80;font-weight:600;margin-top:3px;">● Handgebaut: 95–100 möglich</div>
               </div>
             </div>
-            <div style="font-size:9px;color:#aaa;">Typische Werte für Wix-basierte Websites</div>
+            <div style="font-size:9px;color:#aaa;">Gemessen: die-familienpraxis.net · Mobil</div>
           </div>
           <div class="anno" style="top:14px;right:12px;">!</div>
         </div>
